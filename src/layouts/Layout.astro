@@ -1,27 +1,39 @@
 ---
 import "@styles/global.css";
+
+interface Props {
+	lang?: string;
+	title: string;
+	description: string;
+}
+
+const { lang = "en", title, description } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang} data-theme="dark">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<title>Gabriel Perez Portfolio</title>
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="alternate" hreflang="en" href={new URL("/", Astro.site)} />
+		<link rel="alternate" hreflang="es" href={new URL("/es/", Astro.site)} />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+			rel="stylesheet"
+		/>
+		<script is:inline>
+			document.documentElement.dataset.theme =
+				localStorage.theme === "light" ? "light" : "dark";
+		</script>
 	</head>
 	<body>
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>

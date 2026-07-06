@@ -1,0 +1,403 @@
+---
+import JobRow, { type Job } from "@components/JobRow.astro";
+
+interface Props {
+	lang?: "en" | "es";
+}
+
+const { lang = "en" } = Astro.props;
+const es = lang === "es";
+
+const email = "perezd.gabriel@gmail.com";
+const linkedin = "linkedin.com/in/perezdgabriel";
+
+const baseExp = [
+	{ company: "Foundaxis", site:'https://foundaxis.com', logo:"/images/foundaxis_logo.jpeg", location: "Santiago, Chile", current: true, stack: ["SvelteKit", "Three.js", "Django", "Celery", "Redis", "PostgreSQL", "Docker"] },
+	{ company: "Mi Receta", logo:"/images/mi_receta_logo.avif", location: "Chile", current: false, stack: ["Flutter", "Django", "PostgreSQL", "Railway", "AWS S3"] },
+	{ company: "Novartis", site: 'https://www.novartis.com/', logo:"/images/novartis_logo.jpeg", location: "Basel, CH", current: false, stack: ["C", "ARM Cortex-M4", "BLE", "On-device ML"] },
+	{ company: "ALTEN", site: 'https://www.alten.com/', logo:"/images/alten_logo.jpeg", location: "Zürich, CH", current: false, stack: ["BLE", "Matlab", "C#", ".NET", "Xamarin", "STM32"] },
+	{ company: "IDNEO", site: 'https://www.idneo.com/', logo:"/images/idneo_logo.jpeg", location: "Barcelona, ES", current: false, stack: ["STM32", "C", "RF / GPS", "MQTT"] },
+	{ company: "Pavigym", site: 'https://www.pavigym.com/', logo:"/images/pavigym_logo.jpeg", location: "Alicante, ES", current: false, stack: ["nRF52", "Altium", "BLE"] },
+	{ company: "HC Technologies · Focus PD", site: 'https://www.hc-technologies.com/', logo:"/images/hc_technologies_logo.png", location: "Spain · USA", current: false, stack: ["Cortex-M4", "BLE", "Android", "Altium"] },
+];
+
+const expEN = [
+	{ role: "Lead Fullstack Software Engineer", period: "Dec 2023 – Present", bullets: [
+		"Architected and shipped a full web platform from scratch — now serving 2,000+ active users.",
+		"Built a reactive 3D frontend in SvelteKit + Three.js, wired to a structural-calculation service over Protobuf.",
+		"Designed REST APIs with Django REST Framework; offloaded heavy work to async Celery + Redis pipelines.",
+		"Ran the cloud end-to-end: Dockerised services on a custom VPS, plus PostgreSQL schema design.",
+	] },
+	{ role: "Lead Developer & Founder", period: "Jun 2022 – Mar 2023", bullets: [
+		"E-prescription app (iOS & Android) from idea to alpha with 10 physicians users, built in Flutter.",
+		"Built the backend in Django/DRF + PostgreSQL on Railway, with AWS S3 storage and transactional email.",
+	] },
+	{ role: "Embedded Software Engineer", period: "Jun 2020 – Dec 2021", bullets: [
+		"Delivered firmware and concept prototypes for Novartis autoinjectors on ARM Cortex-M4 SoCs.",
+		"Implemented BLE comms, sensor integration and on-device ML inference in a regulated environment.",
+	] },
+	{ role: "Software Engineer", period: "Feb 2019 – Jun 2020", bullets: [
+		"Schindler: iOS apps in Xamarin/C# with .NET + SQL backends.",
+		"TDK Lambda: neural-net models on STM32/NXP MCUs.",
+		"Gilgen: authored and reviewed EN50126/EN50128 rail-safety certification documentation.",
+	] },
+	{ role: "Embedded Software Engineer", period: "Jan 2017 – Feb 2019", bullets: [
+		"Firmware for a liquid-dosing medical device (Renesas) and a global shipping tracker (STM32, sub-GHz, GPS, 3G, MQTT).",
+	] },
+	{ role: "Electronics & Firmware Engineer", period: "Oct 2015 – Jan 2017", bullets: [
+		"Designed a new hardware platform (Altium schematics + PCB) and BLE firmware on Nordic nRF52.",
+	] },
+	{ role: "Electronics & Firmware Engineer", period: "2013 – 2015", bullets: [
+		"Smart glasses & jewelry: hardware design, BLE firmware (ARM Cortex-M4) and companion Android apps; Bluetooth-stethoscope PCB work.",
+	] },
+];
+
+const expES = [
+	{ role: "Lead Fullstack Software Engineer", period: "Dic 2023 – Actualidad", bullets: [
+		"Diseñé la arquitectura e implementé una plataforma web completa desde cero — hoy con más de 2.000 usuarios activos.",
+		"Construí un frontend 3D reactivo en SvelteKit + Three.js, conectado a un servicio de cálculo estructural sobre Protobuf.",
+		"Diseñé APIs REST con Django REST Framework; delegué el trabajo pesado a procesos asíncronos con Celery + Redis.",
+		"Gestioné la nube de extremo a extremo: servicios en Docker sobre un VPS propio, además del diseño de esquemas en PostgreSQL.",
+	] },
+	{ role: "Lead Developer & Founder", period: "Jun 2022 – Mar 2023", bullets: [
+		"Creé una app de recetas médicas electrónicas (iOS y Android), de la idea al alpha con 10 médicos usándola, construida en Flutter.",
+		"Desarrollé el backend en Django/DRF + PostgreSQL sobre Railway, con almacenamiento en AWS S3 y correo transaccional.",
+	] },
+	{ role: "Embedded Software Engineer", period: "Jun 2020 – Dec 2021", bullets: [
+		"Desarrollé firmware y pruebas de concepto para autoinyectores de Novartis sobre SoCs ARM Cortex-M4.",
+		"Implementé comunicación BLE, integración de sensores e inferencia de ML en el dispositivo, en un entorno regulado.",
+	] },
+	{ role: "Software Engineer", period: "Feb 2019 – Jun 2020", bullets: [
+		"Schindler: apps iOS en Xamarin/C# con backends .NET + SQL",
+		"TDK Lambda: modelos de redes neuronales en MCUs STM32/NXP.",
+		"Gilgen: redacté y revisé documentación de certificación ferroviaria EN50126/EN50128.",
+	] },
+	{ role: "Embedded Software Engineer", period: "Jan 2017 – Feb 2019", bullets: [
+		"Firmware para un dispositivo médico de dosificación de líquidos (Renesas) y un rastreador de envíos global (STM32, sub-GHz, GPS, 3G, MQTT).",
+	] },
+	{ role: "Electronics and Firmware Engineer", period: "Oct 2015 – Jan 2017", bullets: [
+		"Diseñé una nueva plataforma de hardware (esquemáticos + PCB en Altium) y firmware BLE sobre Nordic nRF52.",
+	] },
+	{ role: "Electronics and Firmware Engineer", period: "2013 – 2015", bullets: [
+		"Gafas y joyería inteligentes: diseño de hardware, firmware BLE (ARM Cortex-M4) y apps Android complementarias; trabajo de PCB para un estetoscopio Bluetooth.",
+	] },
+];
+
+const expLang = es ? expES : expEN;
+const experience: Job[] = baseExp.map((b, i) => ({
+	...b,
+	...expLang[i],
+	n2: String(i + 1).padStart(2, "0")
+}));
+const expTop = experience.slice(0, 4);
+const expRest = experience.slice(4);
+
+const skillItems = [
+	["React", "Next.js", "SvelteKit", "TypeScript", "Three.js", "Flutter"],
+	["Python", "Django", "FastAPI", "Celery"],
+	["PostgreSQL", "Redis"],
+	["AWS", "Docker", "VPS", "DigitalOcean", "Railway", "GitHub Actions"],
+	["REST", "Protobuf", "MQTT", "WebSockets", "BLE"],
+	["Claude Code", "Opencode", "Anthropic SDK"],
+];
+const skillLabels = es
+	? ["Frontend", "Backend", "Bases de datos", "Cloud y DevOps", "Protocolos", "IA y flujos de trabajo"]
+	: ["Frontend", "Backend", "Databases", "Cloud & DevOps", "Protocols", "AI & Workflows"];
+const skills = skillItems.map((items, i) => ({ label: skillLabels[i], items }));
+
+const project = es
+	? {
+			title: "Cámara Abierta",
+			status: "EN DESARROLLO · 2026",
+			desc: "Una herramienta cívica que permite a la ciudadanía seguir la actividad legislativa y de gobierno en tiempo real — proyectos de ley, decretos y avisos oficiales — con un pipeline de LLM que convierte textos legales densos en resúmenes en lenguaje claro.",
+			points: [
+				"Backend: FastAPI y PostgreSQL con scrapers de Playwright e integración con APIs oficiales del gobierno.",
+				"Despliegue: Serverless en AWS con lambdas activadas por EventBridge, Colas SQS y eventos de S3.",
+				"LLM: inferencia con la API de Anthropic para resúmenes.",
+				"Clientes: una SPA en React para escritorio y una app React Native para seguimiento (pendiente).",
+			],
+			stack: ["FastAPI", "PostgreSQL", "React", "Next.js", "Anthropic SDK", "Claude Code", "Playwright"],
+		}
+	: {
+			title: "Camara Abierta",
+			status: "IN DEVELOPMENT · 2026",
+			desc: "A civic-tech tool that lets citizens track legislation and government activity in real time — bills, decrees and official notices — with an LLM pipeline that turns dense legal text into plain-language summaries.",
+			points: [
+				"Backend: FastAPI and PostgreSQL with Playwright scrapers and official government API integrations.",
+				"Deployment: Serverless on AWS with EventBridge-triggered lambdas, SQS queues, and S3 events.",
+				"LLM: inference via Anthropic API for summaries.",
+				"Clients: a React SPA for desktop and a React Native app (pending).",
+			],
+			stack: ["FastAPI", "PostgreSQL", "React", "Next.js", "Anthropic SDK", "Claude Code", "Playwright"],
+		};
+
+const education = es
+	? [
+			{ degree: "M.Sc. en Ingeniería de Sistemas Electrónicos", school: "Universidad Politécnica de Valencia (UPV)", period: "2014 – 2015", detail: "Nota 8/10 · Notable" },
+			{ degree: "Ing. de Telecomunicaciones (Electrónica)", school: "Universidad Miguel Hernández de Elche", period: "2007 – 2012", detail: "Nota 8/10 · Notable" },
+		]
+	: [
+			{ degree: "M.Sc. Electronic Systems Engineering", school: "Universidad Politécnica de Valencia (UPV)", period: "2014 – 2015", detail: "GPA 8/10 · Notable" },
+			{ degree: "B.Eng. Telecommunications (Electronics)", school: "Universidad Miguel Hernández de Elche", period: "2007 – 2012", detail: "GPA 8/10 · Notable" },
+		];
+
+const cert = es
+	? { name: "AWS Certified Solutions Architect — Associate", status: "En curso · Previsto Ago 2026" }
+	: { name: "AWS Certified Solutions Architect — Associate", status: "In progress · Expected Aug 2026" };
+
+const languages = es
+	? [
+			{ name: "Español", level: "Nativo" },
+			{ name: "Inglés", level: "Competencia profesional" },
+		]
+	: [
+			{ name: "Spanish", level: "Native" },
+			{ name: "English", level: "Professional working" },
+		];
+
+const stats = es
+	? [
+			{ v: "10+", l: "Años en software" },
+			{ v: "3+", l: "Años en web y móvil fullstack" },
+			{ v: "2K+", l: "Usuarios en plataformas lanzadas" },
+		]
+	: [
+			{ v: "10+", l: "Years in software" },
+			{ v: "3+", l: "Years fullstack web & mobile" },
+			{ v: "2K+", l: "Users on shipped platforms" },
+		];
+
+const t = {
+	role: es ? "Ingeniero de Software Fullstack" : "Fullstack Software Engineer",
+	summary: es
+		? "Como Ingeniero de Software Fullstack me cargo de todo el ciclo de vida del producto — desde la infraestructura en la nube y backend en Python hasta frontend en React y Svelte. Más de 10 años en software, 3+ enfocados en aplicaciones web y móviles escalables, respaldado por una sólida base de sistemas en ingeniería de sistemas embebidos y IoT."
+		: "As a Fullstack Software Engineer I own the whole product lifecycle — from cloud infrastructure and Python backends to React and Svelte frontends. 10+ years in software, 3+ focused on scalable web & mobile, backed by a deep systems background in embedded systems engineering and IoT.",
+	portfolioLabel: es ? "Portafolio" : "Portfolio",
+	s_stack: "Stack",
+	s_experience: es ? "Experiencia" : "Experience",
+	s_project: es ? "Proyecto personal" : "Personal Project",
+	s_eduLang: es ? "Formación e idiomas" : "Education & Languages",
+	activeLabel: es ? "ACTIVO" : "ACTIVE",
+	darkLabel: es ? "Oscuro" : "Dark",
+	lightLabel: es ? "Claro" : "Light",
+	footerKicker: es ? "Construyamos algo" : "Let's build something",
+	footerLine1: es ? "Disponible para" : "Available for",
+	footerLine2: es ? "roles fullstack." : "fullstack roles.",
+	projDemoLabel: es ? "Ir a Cámara Abierta" : "Go to Camara Abierta",
+	projSourceLabel: es ? "Código fuente" : "Source code",
+	projAlt: es ? "Captura de la plataforma" : "Platform screenshot",
+	showAllLabel: es ? `Ver todos los roles (+${expRest.length})` : `View all roles (+${expRest.length})`,
+	showFewerLabel: es ? "Ver menos" : "Show fewer",
+};
+
+const wrap = "mx-auto max-w-[1120px] px-[clamp(16px,5vw,56px)]";
+const section = `${wrap} pt-1.5 pb-[clamp(36px,5vw,50px)]`;
+const secLabel = "font-mono text-xs leading-none font-medium tracking-[0.12em] uppercase whitespace-nowrap text-accent";
+const seg =
+	"inline-flex cursor-pointer items-center justify-center gap-[5px] rounded-md border-none px-3 py-2 font-mono text-xs leading-none font-semibold whitespace-nowrap transition-all";
+const segOn = "bg-accent text-accent-text";
+const segOff = "text-muted2";
+---
+
+<!-- ===== sticky nav ===== -->
+<div class="sticky top-0 z-30 border-b border-border bg-bg">
+	<div class:list={[wrap, "flex flex-wrap items-center justify-between gap-3.5 py-3"]}>
+		<a class="flex min-w-0 items-baseline gap-[9px]" href="#top">
+			<span class="font-mono text-[13px] leading-none font-semibold whitespace-nowrap text-text">Gabriel Pérez</span>
+			<span class="font-mono text-xs leading-none font-medium whitespace-nowrap text-faint">/ {t.role}</span>
+		</a>
+		<div class="flex flex-wrap items-center gap-2.5">
+			<div class="inline-flex gap-0.5 rounded-lg border border-border2 bg-surface p-[3px]">
+				<a class:list={[seg, es ? segOff : segOn]} href="/">EN</a>
+				<a class:list={[seg, es ? segOn : segOff]} href="/es/">ES</a>
+			</div>
+			<div class="inline-flex gap-0.5 rounded-lg border border-border2 bg-surface p-[3px]">
+				<button
+					class:list={[seg, segOff, "[[data-theme=dark]_&]:bg-accent [[data-theme=dark]_&]:text-accent-text"]}
+					data-set-theme="dark"
+					aria-label="Dark theme">☾ <span>{t.darkLabel}</span></button
+				>
+				<button
+					class:list={[seg, segOff, "[[data-theme=light]_&]:bg-accent [[data-theme=light]_&]:text-accent-text"]}
+					data-set-theme="light"
+					aria-label="Light theme">☀ <span>{t.lightLabel}</span></button
+				>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- ===== meta bar ===== -->
+<a id="top"></a>
+<div class:list={[wrap, "flex items-center justify-between gap-3 border-b border-border py-3.5 font-mono text-[11px] leading-none font-medium tracking-[0.12em] uppercase text-faint"]}>
+	<span>{t.portfolioLabel} / 2026</span>
+	<span class="text-right">Santiago, CL · GMT-4</span>
+</div>
+
+<!-- ===== hero ===== -->
+<div class:list={[wrap, "pt-[clamp(40px,7vw,62px)] pb-[clamp(36px,5vw,50px)]"]}>
+	<div class="flex flex-wrap items-start gap-x-12 gap-y-8">
+		<div class="min-w-0 flex-1 basis-[400px]">
+			<div class="mb-5.5 font-mono text-xs leading-none font-medium tracking-[0.16em] uppercase text-accent">// {t.role}</div>
+			<h1 class="text-[clamp(38px,7.5vw,64px)] leading-[1.02] font-bold tracking-[-0.02em] text-text">Gabriel Pérez</h1>
+			<p class="mt-6 max-w-[62ch] text-[clamp(15px,2.2vw,17px)] leading-[1.7] text-muted">{t.summary}</p>
+			<div class="mt-7.5 flex flex-wrap gap-3">
+				<a class="rounded-[7px] bg-accent px-5 py-[13px] font-mono text-[13px] leading-none font-medium text-accent-text" href={`mailto:${email}`}>{email} ↗</a>
+				<a class="rounded-[7px] border border-border2 px-5 py-[13px] font-mono text-[13px] leading-none font-medium text-text2" href={`https://${linkedin}`} target="_blank" rel="noopener">LinkedIn ↗</a>
+			</div>
+		</div>
+		<img
+			class="aspect-4/5 w-[clamp(200px,26vw,320px)] rounded-[10px] border border-border2 object-cover"
+			src="/images/gabriel.jpeg"
+			width="1200"
+			height="900"
+			alt="Gabriel Pérez Domínguez"
+		/>
+	</div>
+	<div class="mt-11.5 grid grid-cols-[repeat(auto-fit,minmax(170px,1fr))] gap-px overflow-hidden rounded-[10px] border border-border bg-border">
+		{
+			stats.map((s) => (
+				<div class="bg-surface px-6.5 py-6">
+					<div class="text-[clamp(28px,4vw,34px)] leading-none font-bold text-accent">{s.v}</div>
+					<div class="mt-2 font-mono text-xs leading-normal font-medium tracking-[0.06em] uppercase text-muted2">{s.l}</div>
+				</div>
+			))
+		}
+	</div>
+</div>
+
+<!-- ===== skills ===== -->
+<section class={section}>
+	<div class="mb-6.5 flex items-center gap-3.5">
+		<span class={secLabel}>[ 00 ] {t.s_stack}</span>
+		<span class="h-px flex-1 bg-border"></span>
+	</div>
+	<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-x-10 gap-y-6.5">
+		{
+			skills.map((g) => (
+				<div>
+					<div class="mb-3 font-mono text-xs leading-none font-medium tracking-[0.08em] uppercase text-muted2">{g.label}</div>
+					<div class="flex flex-wrap gap-[7px]">
+						{g.items.map((it) => (
+							<span class="rounded-md border border-border2 bg-surface px-[11px] py-[7px] font-mono text-[12.5px] leading-none font-medium text-chip">{it}</span>
+						))}
+					</div>
+				</div>
+			))
+		}
+	</div>
+</section>
+
+<!-- ===== experience ===== -->
+<section class={section}>
+	<div class="mb-7.5 flex items-center gap-3.5">
+		<span class={secLabel}>[ 01 ] {t.s_experience}</span>
+		<span class="h-px flex-1 bg-border"></span>
+	</div>
+	{expTop.map((job) => <JobRow job={job} activeLabel={t.activeLabel} />)}
+	<details class="group flex flex-col-reverse">
+		<summary class="group/sum cursor-pointer list-none border-t border-border pt-5.5 [&::-webkit-details-marker]:hidden">
+			<span
+				class="flex w-full items-center justify-center gap-2.5 rounded-[9px] border border-border2 bg-surface p-4 font-mono text-[12.5px] leading-none font-semibold tracking-[0.06em] uppercase text-text2 transition-colors group-hover/sum:border-accent group-hover/sum:text-accent"
+			>
+				<span class="group-open:hidden">{t.showAllLabel} <span class="text-accent">↓</span></span>
+				<span class="hidden group-open:inline">{t.showFewerLabel} <span class="text-accent">↑</span></span>
+			</span>
+		</summary>
+		<div>
+			{expRest.map((job) => <JobRow job={job} activeLabel={t.activeLabel} />)}
+		</div>
+	</details>
+</section>
+
+<!-- ===== project ===== -->
+<section class={section}>
+	<div class="mb-6.5 flex items-center gap-3.5">
+		<span class={secLabel}>[ 02 ] {t.s_project}</span>
+		<span class="h-px flex-1 bg-border"></span>
+	</div>
+	<div class="rounded-xl border border-border2 bg-surface2 p-[clamp(22px,4vw,32px)]">
+		<!-- <img class="mb-6 block h-[clamp(180px,26vw,300px)] w-full rounded-[10px] object-cover" src="/images/camaraabierta.avif" width="1200" height="900" alt={t.projAlt} loading="lazy" /> -->
+		<div class="flex flex-wrap items-baseline gap-3.5">
+			<h3 class="text-[clamp(20px,3.5vw,24px)] leading-[1.2] font-semibold text-text">{project.title}</h3>
+			<span class="rounded-[5px] border border-green-bd px-[9px] py-[5px] font-mono text-[10.5px] leading-none font-semibold tracking-[0.06em] text-green">{project.status}</span>
+		</div>
+		<p class="mt-4 max-w-[78ch] text-[clamp(14px,2vw,15px)] leading-[1.7] text-muted">{project.desc}</p>
+		<div class="mt-5 grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-x-7 gap-y-2">
+			{
+				project.points.map((pt) => (
+					<div class="flex gap-2.5 text-[13.5px] leading-[1.55] text-muted2">
+						<span class="text-accent">›</span>
+						<span>{pt}</span>
+					</div>
+				))
+			}
+		</div>
+		<div class="mt-5.5 flex flex-wrap gap-[7px]">
+			{project.stack.map((tag) => <span class="rounded-[5px] bg-accent-bg px-[9px] py-[5px] font-mono text-[11px] leading-none font-medium text-accent">{tag}</span>)}
+		</div>
+		<div class="mt-6 flex flex-wrap gap-2.5">
+			<a class="rounded-[7px] bg-accent px-4.5 py-3 font-mono text-[12.5px] leading-none font-medium text-accent-text" href="https://camaraabierta.cl" target="_blank" rel="noopener">{t.projDemoLabel} ↗</a>
+			<a class="rounded-[7px] border border-border2 px-4.5 py-3 font-mono text-[12.5px] leading-none font-medium text-text2" href="https://github.com/perezdgabriel/camara-abierta-backend" target="_blank" rel="noopener">{t.projSourceLabel} ↗</a>
+		</div>
+	</div>
+</section>
+
+<!-- ===== education + languages ===== -->
+<section class={section}>
+	<div class="mb-6.5 flex items-center gap-3.5">
+		<span class={secLabel}>[ 03 ] {t.s_eduLang}</span>
+		<span class="h-px flex-1 bg-border"></span>
+	</div>
+	<div class="grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-[clamp(28px,5vw,40px)]">
+		<div class="flex flex-col gap-4.5">
+			{
+				education.map((e) => (
+					<div class="border-l-2 border-border2 pl-4.5">
+						<div class="text-base leading-[1.3] font-semibold text-text2">{e.degree}</div>
+						<div class="mt-1 text-sm leading-[1.4] text-muted2">{e.school}</div>
+						<div class="mt-1.5 font-mono text-[11.5px] leading-none font-medium text-faint">{e.period} · {e.detail}</div>
+					</div>
+				))
+			}
+			<div class="border-l-2 border-accent pl-4.5">
+				<div class="text-[15px] leading-[1.3] font-semibold text-text2">{cert.name}</div>
+				<div class="mt-1.5 font-mono text-[11.5px] leading-none font-medium text-accent">{cert.status}</div>
+			</div>
+		</div>
+		<div class="flex flex-col gap-3.5">
+			{
+				languages.map((l) => (
+					<div class="flex items-baseline justify-between border-b border-border pb-3">
+						<span class="text-[15px] leading-none font-semibold text-text2">{l.name}</span>
+						<span class="text-right font-mono text-[11.5px] leading-none font-medium text-muted2">{l.level}</span>
+					</div>
+				))
+			}
+		</div>
+	</div>
+</section>
+
+<!-- ===== footer ===== -->
+<footer class="border-t border-border bg-surface2">
+	<div class:list={[wrap, "pt-[clamp(40px,6vw,50px)] pb-[clamp(44px,6vw,56px)]"]}>
+		<div class="mb-4.5 font-mono text-xs leading-none font-medium tracking-[0.14em] uppercase text-accent">// {t.footerKicker}</div>
+		<div class="flex flex-wrap items-end justify-between gap-6">
+			<h2 class="text-[clamp(28px,5vw,40px)] leading-[1.05] font-bold tracking-[-0.02em] text-text">{t.footerLine1}<br />{t.footerLine2}</h2>
+			<div class="flex flex-col gap-2 font-mono text-[13.5px] leading-none font-medium">
+				<a class="text-text2" href={`mailto:${email}`}>{email} ↗</a>
+				<a class="text-text2" href={`https://${linkedin}`} target="_blank" rel="noopener">{linkedin} ↗</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script>
+	document.querySelectorAll<HTMLElement>("[data-set-theme]").forEach((btn) => {
+		btn.addEventListener("click", () => {
+			const theme = btn.dataset.setTheme!;
+			localStorage.theme = theme;
+			document.documentElement.dataset.theme = theme;
+		});
+	});
+</script>

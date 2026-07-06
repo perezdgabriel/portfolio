@@ -1,1 +1,80 @@
 @import "tailwindcss";
+
+:root {
+	--bg: #0a0a0c;
+	--surface: #0d0e11;
+	--surface2: #0e0f13;
+	--border: #1c1d22;
+	--border2: #24262e;
+	--text: #f5f6f8;
+	--text2: #e8e8e8;
+	--muted: #a8adb8;
+	--muted2: #7d8390;
+	--faint: #6b7280;
+	--accent: #5b8cff;
+	--accentText: #0a0a0c;
+	--idx: #2f323b;
+	--chip: #c4c9d4;
+	--green: #28c840;
+	--greenBd: #1e3a24;
+	--accentBg: rgba(91, 140, 255, 0.1);
+}
+
+:root[data-theme="light"] {
+	--bg: #f4f4f1;
+	--surface: #ffffff;
+	--surface2: #fbfbf8;
+	--border: #e6e6e1;
+	--border2: #dddcd5;
+	--text: #16171c;
+	--text2: #22232a;
+	--muted: #52565e;
+	--muted2: #6b7280;
+	--faint: #8a8f99;
+	--accent: #2f5fd0;
+	--accentText: #ffffff;
+	--idx: #d9d9d2;
+	--chip: #33353c;
+	--green: #1a9c3a;
+	--greenBd: #bfe6c6;
+	--accentBg: rgba(47, 95, 208, 0.08);
+}
+
+@theme inline {
+	--font-sans: "IBM Plex Sans", sans-serif;
+	--font-mono: "JetBrains Mono", monospace;
+
+	--color-bg: var(--bg);
+	--color-surface: var(--surface);
+	--color-surface2: var(--surface2);
+	--color-border: var(--border);
+	--color-border2: var(--border2);
+	--color-text: var(--text);
+	--color-text2: var(--text2);
+	--color-muted: var(--muted);
+	--color-muted2: var(--muted2);
+	--color-faint: var(--faint);
+	--color-accent: var(--accent);
+	--color-accent-text: var(--accentText);
+	--color-idx: var(--idx);
+	--color-chip: var(--chip);
+	--color-green: var(--green);
+	--color-green-bd: var(--greenBd);
+	--color-accent-bg: var(--accentBg);
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+body {
+	background: var(--bg);
+	color: var(--text2);
+	-webkit-font-smoothing: antialiased;
+	text-rendering: optimizeLegibility;
+}
+
+::selection {
+	background: var(--accent);
+	color: #fff;
+}
