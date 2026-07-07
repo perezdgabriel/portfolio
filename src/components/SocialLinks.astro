@@ -1,0 +1,27 @@
+---
+import GitHub_Invertocat_Black from "@icons/GitHub_Invertocat_Black.svg";
+import LinkedIn from "@icons/linkedin-svgrepo-com.svg";
+import Email from "@icons/email-svgrepo-com.svg";
+
+const email = "perezd.gabriel@gmail.com";
+const linkedin = "linkedin.com/in/perezdgabriel";
+const github = "github.com/perezdgabriel";
+---
+
+<div class="flex flex-wrap gap-3 items-center">
+  <a href={`mailto:${email}`}>
+    <Email
+      class="text-muted2 h-8 w-8 hover:text-accent hover:scale-110 transition-transform"
+    />
+  </a>
+  <a href={`https://${linkedin}`} target="_blank" rel="noopener">
+    <LinkedIn
+      class="text-muted2 h-6 w-6 hover:text-accent hover:scale-110 transition-transform"
+    />
+  </a>
+  <a href={`https://${github}`} target="_blank" rel="noopener">
+    <GitHub_Invertocat_Black
+      class="text-muted2 h-6 w-6 hover:text-accent hover:scale-110 transition-transform"
+    />
+  </a>
+</div>
