@@ -1,5 +1,6 @@
 ---
 import JobRow, { type Job } from "@components/JobRow.astro";
+import ArchitectureDiagram from "@components/ArchitectureDiagram.astro";
 
 interface Props {
 	lang?: "en" | "es";
@@ -191,6 +192,7 @@ const t = {
 	projDemoLabel: es ? "Ir a Cámara Abierta" : "Go to Camara Abierta",
 	projSourceLabel: es ? "Código fuente" : "Source code",
 	projAlt: es ? "Captura de la plataforma" : "Platform screenshot",
+	archLabel: es ? "Arquitectura en AWS" : "AWS Architecture",
 	showAllLabel: es ? `Ver todos los roles (+${expRest.length})` : `View all roles (+${expRest.length})`,
 	showFewerLabel: es ? "Ver menos" : "Show fewer",
 	downloadCv: es ? "Descargar CV" : "Download CV",
@@ -341,6 +343,10 @@ const segOff = "text-muted2";
 					</div>
 				))
 			}
+		</div>
+		<div class="mt-7">
+			<div class="mb-3 font-mono text-[10.5px] leading-none font-semibold tracking-[0.06em] text-muted2 uppercase">{t.archLabel}</div>
+			<ArchitectureDiagram es={es} />
 		</div>
 		<div class="mt-5.5 flex flex-wrap gap-[7px]">
 			{project.stack.map((tag) => <span class="rounded-[5px] bg-accent-bg px-[9px] py-[5px] font-mono text-[11px] leading-none font-medium text-accent">{tag}</span>)}

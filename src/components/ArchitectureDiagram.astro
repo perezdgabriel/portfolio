@@ -1,0 +1,64 @@
+---
+interface Props {
+	es: boolean;
+}
+
+const { es } = Astro.props;
+
+const H = 46;
+const nodes = [
+	{ x: 20, y: 16, w: 120, title: "Frontend", sub: "Vercel", ext: true },
+	{ x: 230, y: 16, w: 150, title: "API", sub: "Function URL", lam: true },
+	{ x: 470, y: 16, w: 170, title: "RDS Postgres 16", sub: es ? "subred aislada" : "isolated subnet" },
+	{ x: 20, y: 136, w: 120, title: "EventBridge", sub: es ? "8 reglas cron" : "8 cron rules" },
+	{ x: 180, y: 136, w: 110, title: "Job", sub: es ? "ingesta" : "ingestion", lam: true },
+	{ x: 330, y: 136, w: 95, title: "SQS", sub: es ? "cola + DLQ" : "queue + DLQ" },
+	{ x: 463, y: 136, w: 105, title: "LLM", sub: es ? "resúmenes" : "summaries", lam: true },
+	{ x: 604, y: 136, w: 96, title: "Anthropic", sub: "API", ext: true },
+	{ x: 180, y: 236, w: 110, title: "S3", sub: es ? "PDFs semanales" : "weekly PDFs" },
+];
+
+const edges = [
+	"M140 39 H230", // frontend → api
+	"M380 39 H470", // api → rds
+	"M140 159 H180", // eventbridge → job
+	"M290 159 H330", // job → sqs
+	"M425 159 H463", // sqs → llm
+	"M568 159 H604", // llm → anthropic
+	"M235 136 V100 H520 V62", // job → rds
+	"M235 236 V182", // s3 → job
+];
+---
+
+<div class="overflow-x-auto">
+	<svg viewBox="0 0 720 300" role="img" aria-label={es ? "Diagrama de arquitectura AWS" : "AWS architecture diagram"} class="h-auto w-full min-w-[640px]">
+		<defs>
+			<marker id="arch-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+				<path d="M0 0 L7 3.5 L0 7 Z" class="fill-muted2"></path>
+			</marker>
+		</defs>
+		{edges.map((d) => <path d={d} fill="none" stroke-width="1.2" marker-end="url(#arch-arrow)" class="stroke-muted2" />)}
+		{
+			nodes.map((n) => (
+				<g>
+					<rect x={n.x} y={n.y} width={n.w} height={H} rx="8" stroke-width="1" class={`fill-surface ${n.ext ? "stroke-faint [stroke-dasharray:4_3]" : "stroke-border2"}`} />
+					<text x={n.x + n.w / 2} y={n.y + 19} text-anchor="middle" class="fill-text2 font-mono text-[11px] font-medium">
+						{n.lam && <tspan class="fill-accent">λ </tspan>}
+						{n.title}
+					</text>
+					<text x={n.x + n.w / 2} y={n.y + 35} text-anchor="middle" class="fill-muted2 font-mono text-[9.5px]">
+						{n.sub}
+					</text>
+				</g>
+			))
+		}
+		<text x="700" y="294" text-anchor="end" class="fill-faint font-mono text-[9.5px]">AWS · us-east-1</text>
+	</svg>
+</div>
+<p class="mt-3 font-mono text-[11px] leading-[1.7] text-muted2">
+	{
+		es
+			? "Además: egreso vía fck-nat · secretos en SSM Parameter Store · alarmas de CloudWatch → email SNS · CI/CD con GitHub OIDC → CDK deploy"
+			: "Also: egress via fck-nat · secrets in SSM Parameter Store · CloudWatch alarms → SNS email · CI/CD via GitHub OIDC → CDK deploy"
+	}
+</p>
