@@ -10,6 +10,11 @@ const es = lang === "es";
 
 const email = "perezd.gabriel@gmail.com";
 const linkedin = "linkedin.com/in/perezdgabriel";
+const github = "github.com/perezdgabriel";
+const repo = "github.com/perezdgabriel/portfolio";
+// R2-hosted CV — replace with the real object URLs
+const cvEn = "https://cv.gabrielperez.cl/Gabriel_Perez_Fullstack_SWE_CV_en.pdf";
+const cvEs = "https://cv.gabrielperez.cl/Gabriel_Perez_Fullstack_SWE_CV_es.pdf";
 
 const baseExp = [
 	{ company: "Foundaxis", site:'https://foundaxis.com', logo:"/images/foundaxis_logo.jpeg", location: "Santiago, Chile", current: true, stack: ["SvelteKit", "Three.js", "Django", "Celery", "Redis", "PostgreSQL", "Docker"] },
@@ -170,7 +175,7 @@ const stats = es
 const t = {
 	role: es ? "Ingeniero de Software Fullstack" : "Fullstack Software Engineer",
 	summary: es
-		? "Como Ingeniero de Software Fullstack me cargo de todo el ciclo de vida del producto — desde la infraestructura en la nube y backend en Python hasta frontend en React y Svelte. Más de 10 años en software, 3+ enfocados en aplicaciones web y móviles escalables, respaldado por una sólida base de sistemas en ingeniería de sistemas embebidos y IoT."
+		? "Como Ingeniero de Software Fullstack me cargo de todo el ciclo de vida del producto — desde la infraestructura en la nube y backend en Python hasta frontend en React y Svelte. Más de 10 años en software, 3+ enfocados en aplicaciones web y móviles escalables, respaldado por una sólida base en ingeniería de sistemas embebidos y IoT."
 		: "As a Fullstack Software Engineer I own the whole product lifecycle — from cloud infrastructure and Python backends to React and Svelte frontends. 10+ years in software, 3+ focused on scalable web & mobile, backed by a deep systems background in embedded systems engineering and IoT.",
 	portfolioLabel: es ? "Portafolio" : "Portfolio",
 	s_stack: "Stack",
@@ -188,6 +193,8 @@ const t = {
 	projAlt: es ? "Captura de la plataforma" : "Platform screenshot",
 	showAllLabel: es ? `Ver todos los roles (+${expRest.length})` : `View all roles (+${expRest.length})`,
 	showFewerLabel: es ? "Ver menos" : "Show fewer",
+	downloadCv: es ? "Descargar CV" : "Download CV",
+	viewSource: es ? "Ver código" : "View source",
 };
 
 const wrap = "mx-auto max-w-[1120px] px-[clamp(16px,5vw,56px)]";
@@ -243,7 +250,9 @@ const segOff = "text-muted2";
 			<p class="mt-6 max-w-[62ch] text-[clamp(15px,2.2vw,17px)] leading-[1.7] text-muted">{t.summary}</p>
 			<div class="mt-7.5 flex flex-wrap gap-3">
 				<a class="rounded-[7px] bg-accent px-5 py-[13px] font-mono text-[13px] leading-none font-medium text-accent-text" href={`mailto:${email}`}>{email} ↗</a>
+				<a class="rounded-[7px] border border-border2 px-5 py-[13px] font-mono text-[13px] leading-none font-medium text-text2" href={es ? cvEs : cvEn} target="_blank" rel="noopener">{t.downloadCv} ↓</a>
 				<a class="rounded-[7px] border border-border2 px-5 py-[13px] font-mono text-[13px] leading-none font-medium text-text2" href={`https://${linkedin}`} target="_blank" rel="noopener">LinkedIn ↗</a>
+				<a class="rounded-[7px] border border-border2 px-5 py-[13px] font-mono text-[13px] leading-none font-medium text-text2" href={`https://${github}`} target="_blank" rel="noopener">GitHub ↗</a>
 			</div>
 		</div>
 		<img
@@ -387,6 +396,7 @@ const segOff = "text-muted2";
 			<div class="flex flex-col gap-2 font-mono text-[13.5px] leading-none font-medium">
 				<a class="text-text2" href={`mailto:${email}`}>{email} ↗</a>
 				<a class="text-text2" href={`https://${linkedin}`} target="_blank" rel="noopener">{linkedin} ↗</a>
+				<a class="text-text2" href={`https://${repo}`} target="_blank" rel="noopener">{t.viewSource} ↗</a>
 			</div>
 		</div>
 	</div>
