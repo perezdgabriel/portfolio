@@ -216,6 +216,20 @@ const skillItems = [
   ["REST", "Protobuf", "MQTT", "WebSockets", "BLE"],
   ["Claude Code", "Opencode", "Anthropic SDK"],
 ];
+const highlightedSkills = new Set([
+  "React",
+  "Next.js",
+  "TypeScript",
+  "Python",
+  "Django",
+  "PostgreSQL",
+  "AWS",
+  "Docker",
+  "Claude Code",
+  "GitHub Actions",
+  "Protobuf",
+  "MQTT",
+]);
 const skillLabels = es
   ? [
       "Frontend",
@@ -518,9 +532,16 @@ const segOff = "text-muted2";
           <div class="mb-3 font-mono text-xs leading-none font-medium tracking-[0.08em] uppercase text-muted2">
             {g.label}
           </div>
-          <div class="flex flex-wrap gap-[7px]">
+          <div class="flex flex-wrap gap-1.75">
             {g.items.map((it) => (
-              <span class="rounded-md border border-border2 bg-surface px-[11px] py-[7px] font-mono text-[12.5px] leading-none font-medium text-chip">
+              <span
+                class:list={[
+                  "rounded-md border px-2.75 py-1.75 font-mono text-[12.5px] leading-none font-medium",
+                  highlightedSkills.has(it)
+                    ? "border-accent text-accent"
+                    : "border-border2  text-chip",
+                ]}
+              >
                 {it}
               </span>
             ))}
